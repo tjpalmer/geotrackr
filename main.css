@@ -1,0 +1,36 @@
+body {
+  background: black;
+  font-family: Consolas, monospace;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  flex: 1;
+  padding: 0.5em;
+}
+
+h1 {
+  margin: 0 0 0.2em;
+}
+
+.main {
+  background: #222;
+  color: #0F0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 100vmin;
+  min-height: 100vh;
+}
+
+.photo {
+  flex: 0;
+}
+
+.photo img {
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  width: 100%;
+}
