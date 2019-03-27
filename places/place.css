@@ -1,0 +1,22 @@
+h1 {
+  font-size: 150%;
+  margin: 0;
+}
+
+.image {
+  margin-right: 1em;
+}
+
+#images {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 100vmin;
+}
+
+#images > * {
+  display: flex;
+  flex-direction: row;
+  margin: 0.5em;
+}
