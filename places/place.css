@@ -1,6 +1,18 @@
+#clues {
+  margin: 0 1em 0 auto;
+  max-width: 50vmin;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
 h1 {
   font-size: 150%;
-  margin: 0;
+}
+
+h2 {
+  font-size: 125%;
 }
 
 .image {
@@ -19,4 +31,9 @@ h1 {
   display: flex;
   flex-direction: row;
   margin: 0.5em;
+}
+
+#top {
+  display: flex;
+  flex-direction: row;
 }
