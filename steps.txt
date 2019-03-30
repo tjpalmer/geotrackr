@@ -1,0 +1,6 @@
+Steps:
+- Load in Windows Photos
+- Crop to 16:9 (selecting whatever's best and/or adjusting color)
+- Load in Gimp
+- Scale to 320 wide (x 180 high)
+- Save as webp, quality 90, no metadata
