@@ -1,6 +1,7 @@
 body {
   background: black;
   font-family: Consolas, monospace;
+  font-size: 1vmax;
   margin: 0;
   padding: 0;
 }
