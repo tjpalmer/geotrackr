@@ -1,0 +1,23 @@
+{
+  "name": "geotrackr",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-scripts": "tsc --project scripts --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjpalmer/geotrackr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tjpalmer/geotrackr/issues"
+  },
+  "homepage": "https://github.com/tjpalmer/geotrackr#readme",
+  "devDependencies": {
+    "typescript": "^3.4.1"
+  }
+}
