@@ -1,14 +1,79 @@
+.active {
+  /* font-size: 150%;
+  top: -0.17em;
+  position: relative; */
+}
+
+.arrows {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+/* .arrows .button {
+  margin-bottom: -2vh;
+  padding: 0.3vh 0.2em 0;
+} */
+
 body {
   background: black;
   font-family: Consolas, monospace;
-  font-size: 2.5vmax;
+  font-size: 3vh;
   margin: 0;
   padding: 0;
+}
+
+.button {
+  color: #0F4;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 0.1em;
+  padding: 0 0.4em;
+}
+
+.button:first-child {
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .content {
   flex: 1;
   padding: 0.25em 0.5em;
+}
+
+.control, .info {
+  display: flex;
+  flex-flow: row wrap;
+  /* font-size: 125%; */
+  padding: 0 0.5em;
+}
+
+.control > * {
+  flex-grow: 1;
+}
+
+.credit {
+  position: absolute;
+  text-align: right;
+  width: 100%;
+}
+
+.credit .button {
+  background: black;
+  color: white;
+  margin: 0;
+  opacity: 0.3;
+  padding: 0.1em 0.4em;
+  border-radius: 0 0 0 0.2em;
+}
+
+.depart {
+  flex-grow: 0;
+}
+
+.depart .button {
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
@@ -29,10 +94,21 @@ h1 {
 
 .photo {
   flex: 0;
+  position: relative;
 }
 
 .photo img {
   image-rendering: crisp-edges;
   image-rendering: pixelated;
   width: 100%;
+}
+
+.share {
+  font-size: 50%;
+  flex: 1;
+  text-align: center;
+}
+
+.share .button {
+  margin: 1vh 0;
 }
