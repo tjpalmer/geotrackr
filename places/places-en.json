@@ -1,0 +1,194 @@
+[
+  {
+    "id": "beijing",
+    "lang": "zh",
+    "name": "北京",
+    "nameUi": "Beijing",
+    "point": [
+      116.4074,
+      39.9042
+    ],
+    "sites": [
+      {
+        "credit": "<a href=\"https://commons.wikimedia.org/w/index.php?title=User:%E9%83%AD%E5%8F%8B%E6%9F%8F&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:&#x90ED;&#x53CB;&#x67CF; (page does not exist)\">&#x90ED;&#x53CB;&#x67CF;</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/4.0\" title=\"Creative Commons Attribution-Share Alike 4.0\">CC BY-SA 4.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=67807906\">Link</a>",
+        "image": "beijing.webp",
+        "name": "中国北京",
+        "nameUi": "Beijing, China"
+      },
+      {
+        "credit": "<a href=\"https://commons.wikimedia.org/wiki/User:Kallgan\" title=\"User:Kallgan\">user:kallgan</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\" title=\"Creative Commons Attribution-Share Alike 3.0\">CC BY-SA 3.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=978574\">Link</a>",
+        "image": "beijing_forbidden-city.webp",
+        "name": "紫禁城",
+        "nameUi": "Forbidden City"
+      }
+    ]
+  },
+  {
+    "id": "delhi",
+    "lang": "hi",
+    "name": "दिल्ली",
+    "nameUi": "Delhi",
+    "point": [
+      77.1025,
+      28.7041
+    ],
+    "sites": [
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Kabi1990&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Kabi1990 (page does not exist)\">Kabi1990</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/3.0\" title=\"Creative Commons Attribution-Share Alike 3.0\">CC BY-SA 3.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=17782961\">Link</a>",
+        "image": "delhi.webp",
+        "name": "दिल्ली, भारत",
+        "nameUi": "Delhi, India"
+      },
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/wiki/User:Reflectionsbyprajakta\" title=\"User:Reflectionsbyprajakta\">Reflectionsbyprajakta</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/4.0\" title=\"Creative Commons Attribution-Share Alike 4.0\">CC BY-SA 4.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=73232347\">Link</a>",
+        "image": "delhi_red-fort.webp",
+        "name": "लाल किला",
+        "nameUi": "Red Fort"
+      }
+    ]
+  },
+  {
+    "id": "jakarta",
+    "lang": "id",
+    "name": "Jakarta",
+    "nameUi": "Jakarta",
+    "point": [
+      106.8456,
+      -6.2088
+    ],
+    "sites": [
+      {
+        "credit": "Gunawan Kartapranata - self-made, <a href=\"https://en.wikipedia.org/w/index.php?curid=16071945\">Link</a>",
+        "image": "jakarta.webp",
+        "name": "Jakarta, Indonesia",
+        "nameUi": "Jakarta, Indonesia"
+      },
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/wiki/User:Dohduhdah\" title=\"User:Dohduhdah\">Dohduhdah</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, Public Domain, <a href=\"https://commons.wikimedia.org/w/index.php?curid=4882955\">Link</a>",
+        "image": "jakarta_mosque-cathedral.webp",
+        "name": "Masjid Istiqlal dan Gereja Katedral Jakarta",
+        "nameUi": "Istiqlal Mosque and Jakarta Cathedral"
+      }
+    ]
+  },
+  {
+    "id": "lagos",
+    "lang": "en",
+    "name": "Lagos",
+    "nameUi": "Lagos",
+    "point": [
+      3.3792,
+      6.5244
+    ],
+    "sites": [
+      {
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/126887487@N04\">OpenUpEd</a> - <a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/126887487@N04/15006436297/\">Victoria Island, Lagos, Nigeria</a>, <a href=\"https://creativecommons.org/licenses/by/2.0\" title=\"Creative Commons Attribution 2.0\">CC BY 2.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=35428064\">Link</a>",
+        "image": "lagos.webp",
+        "name": "Lagos, Nigeria",
+        "nameUi": "Lagos, Nigeria"
+      },
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Ashinze&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Ashinze (page does not exist)\">Ashinze</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/4.0\" title=\"Creative Commons Attribution-Share Alike 4.0\">CC BY-SA 4.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=70365466\">Link</a>",
+        "image": "lagos_lekki-conservation-centre.webp",
+        "name": "Lekki Conservation Centre",
+        "nameUi": "Lekki Conservation Centre"
+      }
+    ]
+  },
+  {
+    "id": "moscow",
+    "lang": "ru",
+    "name": "Москва",
+    "nameUi": "Moscow",
+    "point": [
+      37.6173,
+      55.7558
+    ],
+    "sites": [
+      {
+        "credit": "MyName (<a href=\"https://commons.wikimedia.org/wiki/User:Bradmoscu\" title=\"User:Bradmoscu\">Bradmoscu</a> (<a href=\"https://commons.wikimedia.org/wiki/User_talk:Bradmoscu\" title=\"User talk:Bradmoscu\"><span class=\"signature-talk\">talk</span></a>)) - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/3.0\" title=\"Creative Commons Attribution-Share Alike 3.0\">CC BY-SA 3.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=9714495\">Link</a>",
+        "image": "moscow.webp",
+        "name": "Москва, Россия",
+        "nameUi": "Moscow, Russia"
+      },
+      {
+        "credit": "This photo was taken by <a href=\"https://commons.wikimedia.org/wiki/User:Nino_Verde\" title=\"User:Nino Verde\">Anton Zelenov</a>.Please credit this with&#xA0;: Photo&#xA0;: Anton Zelenov in the immediate vicinity of the image.If you use one of my photos, please <a href=\"https://commons.wikimedia.org/wiki/Special:EmailUser/Nino_Verde\" title=\"Special:EmailUser/Nino Verde\">email me</a> (account needed) or leave me a short message on <a href=\"https://commons.wikimedia.org/wiki/User_talk:Nino_Verde\" title=\"User talk:Nino Verde\">my discussion page</a>.It would be greatly appreciated.Do not copy this image illegally by ignoring the terms of the license below, as it is not in the public domain.If you would like special permission to use, license, or purchase the image please <a href=\"https://commons.wikimedia.org/wiki/Special:EmailUser/Nino_Verde\" title=\"Special:EmailUser/Nino Verde\">contact me</a> to negotiate terms. - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/3.0\" title=\"Creative Commons Attribution-Share Alike 3.0\">CC BY-SA 3.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=27935800\">Link</a>",
+        "image": "moscow_st-basil-cathedral.webp",
+        "name": "Собор Василия Блаженного",
+        "nameUi": "Saint Basil's Cathedral"
+      }
+    ]
+  },
+  {
+    "id": "new-york-city",
+    "lang": "en",
+    "name": "New York City",
+    "nameUi": "New York City",
+    "point": [
+      -74.006,
+      40.7128
+    ],
+    "sites": [
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:JaxsonD&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:JaxsonD (page does not exist)\">JaxsonD</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/4.0\" title=\"Creative Commons Attribution-Share Alike 4.0\">CC BY-SA 4.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=76556338\">Link</a>",
+        "image": "new-york-city.webp",
+        "name": "New York City, United States of America",
+        "nameUi": "New York City, United States of America"
+      },
+      {
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/26782864@N00\">William Warby</a> - originally posted to <a href=\"//commons.wikimedia.org/wiki/Flickr\" class=\"mw-redirect\" title=\"Flickr\">Flickr</a> as <a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/26782864@N00/2229937579\">Statue of Liberty</a>, <a href=\"https://creativecommons.org/licenses/by/2.0\" title=\"Creative Commons Attribution 2.0\">CC BY 2.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=4800579\">Link</a>",
+        "image": "new-york-city_statue-of-liberty.webp",
+        "name": "Statue of Liberty",
+        "nameUi": "Statue of Liberty"
+      }
+    ]
+  },
+  {
+    "id": "sao-paulo",
+    "lang": "pt",
+    "name": "São Paulo",
+    "nameUi": "São Paulo",
+    "point": [
+      -46.6333,
+      -23.5505
+    ],
+    "sites": [
+      {
+        "credit": "Photograph by <a href=\"//commons.wikimedia.org/wiki/User:Mike_Peel\" title=\"User:Mike Peel\">Mike Peel</a> (<a rel=\"nofollow\" class=\"external text\" href=\"http://www.mikepeel.net/\">www.mikepeel.net</a>)., <a href=\"https://creativecommons.org/licenses/by-sa/4.0\" title=\"Creative Commons Attribution-Share Alike 4.0\">CC BY-SA 4.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=57018439\">Link</a>",
+        "image": "sao-paulo.webp",
+        "name": "São Paulo, Brasil",
+        "nameUi": "São Paulo, Brazil"
+      },
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/wiki/User:The_Photographer\" class=\"mw-redirect\" title=\"User:The Photographer\">The Photographer</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"http://creativecommons.org/publicdomain/zero/1.0/deed.en\" title=\"Creative Commons Zero, Public Domain Dedication\">CC0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=37812222\">Link</a>",
+        "image": "sao-paulo_museum-of-art.webp",
+        "name": "Museu de Arte de São Paulo",
+        "nameUi": "São Paulo Museum of Art"
+      }
+    ]
+  },
+  {
+    "id": "tokyo",
+    "lang": "ja",
+    "name": "東京",
+    "nameUi": "Tokyo",
+    "point": [
+      139.6503,
+      35.6762
+    ],
+    "sites": [
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/wiki/User:Morio\" title=\"User:Morio\">Morio</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/3.0\" title=\"Creative Commons Attribution-Share Alike 3.0\">CC BY-SA 3.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=16835714\">Link</a>",
+        "image": "tokyo.webp",
+        "name": "東京、日本",
+        "nameUi": "Tokyo, Japan"
+      },
+      {
+        "credit": "<a href=\"//commons.wikimedia.org/wiki/User:%E6%B1%9F%E6%88%B8%E6%9D%91%E3%81%AE%E3%81%A8%E3%81%8F%E3%81%9E%E3%81%86\" title=\"User:&#x6C5F;&#x6238;&#x6751;&#x306E;&#x3068;&#x304F;&#x305E;&#x3046;\">&#x6C5F;&#x6238;&#x6751;&#x306E;&#x3068;&#x304F;&#x305E;&#x3046;</a> - <span class=\"int-own-work\" lang=\"en\">Own work</span>, <a href=\"https://creativecommons.org/licenses/by-sa/4.0\" title=\"Creative Commons Attribution-Share Alike 4.0\">CC BY-SA 4.0</a>, <a href=\"https://commons.wikimedia.org/w/index.php?curid=65404600\">Link</a>",
+        "image": "tokyo_meiji-jingu.webp",
+        "name": "明治神宮",
+        "nameUi": "Meiji Shrine"
+      }
+    ]
+  }
+]

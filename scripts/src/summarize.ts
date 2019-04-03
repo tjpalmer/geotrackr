@@ -3,11 +3,24 @@ import {existsSync, statSync, readdirSync, readFileSync} from 'fs';
 import {join} from 'path';
 
 interface Place {
+  id: string;
+  lang: string;
   name: string;
+  nameUi: string;
   point: Point2;
+  sites: Site[];
 }
 
 type Point2 = [number, number];
+
+interface Site {
+  credit: string;
+  image: string;
+  name: string;
+  nameUi: string;
+}
+
+let langUi = 'en';
 
 function process() {
   let root = './places';
@@ -18,15 +31,28 @@ function process() {
       let docName = join(kidFull, `${kid}.html`);
       if (existsSync(docName)) {
         let doc = load(readFileSync(docName));
-        let name = doc('title').text();
+        let nameBox = doc('h1 > div').first();
+        let lang = nameBox.attr('lang');
         places.push({
-          name: doc('title').text(),
+          id: kid,
+          lang,
+          name: nameBox.text(),
+          nameUi: doc(`h1 > div[lang="${langUi}"]`).first().text(),
           point: parsePoint(doc('#point').text()),
+          sites: doc('#images').children().toArray().map(kidElement => {
+            let kid = load(kidElement);
+            return {
+              credit: kid('.credit').html()!.trim(),
+              image: kid('img').attr('src'),
+              name: kid(`h2 > *[lang="${lang}"]`).first().text(),
+              nameUi: kid(`h2 > *[lang="${langUi}"]`).first().text(),
+            };
+          }),
         })
       }
     }
   });
-  console.log(JSON.stringify(places));
+  console.log(JSON.stringify(places, undefined, 2));
 }
 
 function parsePoint(pointText: string): Point2 {
