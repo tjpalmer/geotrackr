@@ -2,7 +2,17 @@ import {load} from 'cheerio';
 import {existsSync, statSync, readdirSync, readFileSync} from 'fs';
 import {join} from 'path';
 
-interface Place {
+interface FullSite extends MinSite {
+  credit: string;
+  name: string;
+  nameUi: string;
+}
+
+interface MinSite {
+  image: string;
+}
+
+interface Place<Site extends MinSite> {
   id: string;
   lang: string;
   name: string;
@@ -13,18 +23,11 @@ interface Place {
 
 type Point2 = [number, number];
 
-interface Site {
-  credit: string;
-  image: string;
-  name: string;
-  nameUi: string;
-}
-
 let langUi = 'en';
 
 function process() {
   let root = './places';
-  let places = [] as Place[];
+  let places = [] as Place<MinSite>[];
   readdirSync(root).forEach(kid => {
     let kidFull = join(root, kid);
     if (statSync(kidFull).isDirectory()) {
@@ -42,10 +45,10 @@ function process() {
           sites: doc('#images').children().toArray().map(kidElement => {
             let kid = load(kidElement);
             return {
-              credit: kid('.credit').html()!.trim(),
+              // credit: kid('.credit').html()!.trim(),
               image: kid('img').attr('src'),
-              name: kid(`h2 > *[lang="${lang}"]`).first().text(),
-              nameUi: kid(`h2 > *[lang="${langUi}"]`).first().text(),
+              // name: kid(`h2 > *[lang="${lang}"]`).first().text(),
+              // nameUi: kid(`h2 > *[lang="${langUi}"]`).first().text(),
             };
           }),
         })
