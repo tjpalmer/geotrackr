@@ -1,27 +1,7 @@
 import {load} from 'cheerio';
 import {existsSync, statSync, readdirSync, readFileSync} from 'fs';
 import {join} from 'path';
-
-interface FullSite extends MinSite {
-  credit: string;
-  name: string;
-  nameUi: string;
-}
-
-interface MinSite {
-  image: string;
-}
-
-interface Place<Site extends MinSite> {
-  id: string;
-  lang: string;
-  name: string;
-  nameUi: string;
-  point: Point2;
-  sites: Site[];
-}
-
-type Point2 = [number, number];
+import {MinSite, Place, Point2} from '../../src/place';
 
 let langUi = 'en';
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "parcel build src/index.html --out-dir . --public-url ./",
+    "build": "parcel build src/index.html --out-dir . --public-url ./",
     "start": "parcel src/index.html --out-dir dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-scripts": "tsc --project scripts --watch"
@@ -24,5 +24,8 @@
     "cheerio": "^1.0.0-rc.2",
     "parcel-bundler": "^1.12.3",
     "typescript": "^3.4.1"
+  },
+  "dependencies": {
+    "prando": "^5.1.0"
   }
 }
