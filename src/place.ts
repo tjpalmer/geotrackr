@@ -4,6 +4,8 @@ export interface FullSite extends MinSite {
   nameUi: string;
 }
 
+export type MinPlace = Place<MinSite>;
+
 export interface MinSite {
   image: string;
 }
