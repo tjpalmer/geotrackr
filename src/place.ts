@@ -1,3 +1,5 @@
+export type FullPlace = Place<FullSite>;
+
 export interface FullSite extends MinSite {
   credit: string;
   name: string;

@@ -1,5 +1,6 @@
 import {EpisodeGenerator} from './episode';
 import {MinPlace} from './place';
+import {renderPlace} from './ui';
 
 addEventListener('load', main);
 
@@ -12,6 +13,7 @@ async function main() {
   // console.log(places);
   let generator = new EpisodeGenerator(places);
   let round = generator.nextRound();
-  let place = places[(Math.random() * places.length) | 0];
   console.log(round.place);
+  console.log(round.sites[0]);
+  renderPlace(round.place);
 }

@@ -15,7 +15,7 @@ interface EpisodeOptions {
   seed?: int;
 }
 
-interface Round {
+export interface Round {
   clues: Clue[];
   nextPlace?: MinPlace;
   place: MinPlace;
@@ -52,6 +52,7 @@ export class EpisodeGenerator {
     // Current place.
     let place = nextPlace || random.nextItem(places);
     // Sites.
+    // TODO Always include skyline with clue, or just without clue?
     let sites = [...Array(cluesPerPlace).keys()].map(
       () => random.nextItem(place.sites),
     );
