@@ -1,6 +1,6 @@
+import {renderPlace} from './display';
 import {generateEpisode} from './episode';
 import {MinPlace} from './place';
-import {renderPlace} from './ui';
 
 addEventListener('load', main);
 
@@ -11,7 +11,7 @@ async function main() {
   let places =
     await (await fetch('places/places-en.json')).json() as MinPlace[];
   // console.log(places);
-  let episode = generateEpisode(places);
+  let episode = await generateEpisode(places);
   let round = episode.rounds[0];
   console.log(episode);
   renderPlace(round.place);

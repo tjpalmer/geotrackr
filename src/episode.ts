@@ -1,11 +1,13 @@
 import {Random} from './random';
-import {MinPlace, MinSite} from './place';
+import {FullSite, MinPlace, MinSite} from './place';
+import {fetchObjectUri} from './util';
 
 export type int = number;
 export type Clue = string;
 
-export interface ClueSite extends MinSite {
+export interface ClueSite {
   clue: Clue;
+  site: MinSite;
 }
 
 export interface Episode {
@@ -25,13 +27,33 @@ export interface Round {
   sites: ClueSite[];
 }
 
-export function generateEpisode(
+export async function generateEpisode(
   places: MinPlace[], options: EpisodeOptions = {},
-): Episode {
-  return new EpisodeGenerator(places, options).generate();
+) {
+  let episode = new EpisodeGenerator(places, options).generate();
+  await Promise.all(episode.rounds.map(async round => {
+    let {place} = round;
+    // Update place sites, which are the same sites as for the round.
+    // TODO If we reach a point of more sites than use with shuffling, load the
+    // TODO round clue sites rather than all the place sites.
+    let imageRequests = Promise.all(place.sites.map(async site => {
+      // TODO Remember to URL.revokeObjectURL() after each round?
+      site.image = await fetchObjectUri(`places/${place.id}/${site.image}`);
+    }));
+    let text =
+      await (await fetch(`places/${place.id}/${place.id}.html`)).text();
+    let data = new DOMParser().parseFromString(text, "text/html");
+    [...data.querySelectorAll('#images h2')].forEach((heading, siteIndex) => {
+      let divs = heading.children;
+      (place.sites[siteIndex] as FullSite).name = divs[0].textContent!;
+      // TODO Extract by game language. Or have files extracted for each lang?
+      (place.sites[siteIndex] as FullSite).nameUi = divs[1].textContent!;
+    })
+    await imageRequests;
+  }));
+  return episode;
 }
 
-// TODO Load all up front for full caching!
 class EpisodeGenerator {
 
   constructor(places: MinPlace[], options: EpisodeOptions = {}) {
@@ -86,6 +108,7 @@ class EpisodeGenerator {
     // Sites.
     // TODO Always include skyline with clue, or just without clue?
     let sites = [...Array(cluesPerPlace).keys()].map(() => {
+      // TODO This samples with replacement. Probably just shuffle instead.
       let site = random.nextItem(place.sites);
       let clue = '';
       // Generate numbers now even if not used yet, for consistent production.
@@ -94,7 +117,7 @@ class EpisodeGenerator {
       if (nextPlace) {
         random.nextInt(0, nextPlace!.sites.length);
       }
-      return Object.assign({clue}, site) as ClueSite;
+      return {clue, site} as ClueSite;
     });
     // Update and done.
     this.nextPlace = nextPlace;
