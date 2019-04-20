@@ -1,28 +1,38 @@
 import {Random} from './random';
 import {MinPlace, MinSite} from './place';
 
-type int = number;
-type Clue = string;
+export type int = number;
+export type Clue = string;
 
-interface Episode {
-  // TODO Criminal
-  rounds: Round[];
+export interface ClueSite extends MinSite {
+  clue: Clue;
 }
 
-interface EpisodeOptions {
+export interface Episode {
+  // TODO Perpetrator
+  rounds: Round[];
+  seed: string;
+}
+
+export interface EpisodeOptions {
   cluesPerPlace?: int;
   roundsPerEpisode?: int;
   seed?: int;
 }
 
 export interface Round {
-  clues: Clue[];
-  nextPlace?: MinPlace;
   place: MinPlace;
-  sites: MinSite[];
+  sites: ClueSite[];
 }
 
-export class EpisodeGenerator {
+export function generateEpisode(
+  places: MinPlace[], options: EpisodeOptions = {},
+): Episode {
+  return new EpisodeGenerator(places, options).generate();
+}
+
+// TODO Load all up front for full caching!
+class EpisodeGenerator {
 
   constructor(places: MinPlace[], options: EpisodeOptions = {}) {
     let {seed} = options;
@@ -45,30 +55,51 @@ export class EpisodeGenerator {
     );
   }
 
+  generate(): Episode {
+    // TODO Perp.
+    // The order has to be constant here.
+    let rounds =
+      [...Array(this.roundsPerEpisode).keys()].map(() => this.nextRound());
+    // Prep buffer for episode id.
+    let data = new DataView(new ArrayBuffer(4));
+    // Set with little endianness, since that's most common these days.
+    // What matters is that we have it consistent and defined.
+    data.setInt32(0, this.seed);
+    // Convert to base64.
+    // This doesn't get us far on just a 32 bit id, but we'll have git commit
+    // ids and possibly more random seed size later.
+    let seed = btoa(String.fromCharCode(...new Uint8Array(data.buffer)));
+    console.log(seed);
+    // Done.
+    return {rounds, seed};
+  }
+
   nextRound(): Round {
     // Important! The order of generation can't be changed, or else it breaks
     // deterministic generation!
     let {cluesPerPlace, nextPlace, places, random, roundsPerEpisode} = this;
-    // Current place.
+    // Current place and next.
     let place = nextPlace || random.nextItem(places);
+    nextPlace = this.roundIndex < roundsPerEpisode ?
+      random.nextItem(places) :
+      undefined;
     // Sites.
     // TODO Always include skyline with clue, or just without clue?
-    let sites = [...Array(cluesPerPlace).keys()].map(
-      () => random.nextItem(place.sites),
-    );
-    // Next place and clues.
-    let clues: Clue[];
-    if (this.roundIndex < roundsPerEpisode) {
-      nextPlace = random.nextItem(places);
-      clues = [...Array(cluesPerPlace).keys()].map(() => '');
+    let sites = [...Array(cluesPerPlace).keys()].map(() => {
+      let site = random.nextItem(place.sites);
+      let clue = '';
       // Generate numbers now even if not used yet, for consistent production.
-      clues.forEach(() => random.nextInt(0, nextPlace!.sites.length));
-    } else {
-      // Do we get any "clues" at the last place?
-      clues = [];
-    }
-    // Done.
-    return {clues, nextPlace, place, sites};
+      // TODO Remove this once really getting clues.
+      // TODO Do we get any "clues" at the last place?
+      if (nextPlace) {
+        random.nextInt(0, nextPlace!.sites.length);
+      }
+      return Object.assign({clue}, site) as ClueSite;
+    });
+    // Update and done.
+    this.nextPlace = nextPlace;
+    this.roundIndex += 1;
+    return {place, sites};
   }
 
   cluesPerPlace!: int;

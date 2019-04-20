@@ -1,7 +1,11 @@
 // import {Round} from './episode';
 import {MinPlace} from './place';
 
-export function renderPlace(place: MinPlace) {
-  let image = document.querySelector('.photo img') as HTMLImageElement;
-  image.src = `places/${place.id}/${place.sites[0].image}`;
+export async function renderPlace(place: MinPlace) {
+  let img = document.querySelector('.photo img') as HTMLImageElement;
+  img.src = await loadImageData(`places/${place.id}/${place.sites[0].image}`);
+}
+
+async function loadImageData(uri: string) {
+  return URL.createObjectURL(await (await fetch(uri)).blob());
 }

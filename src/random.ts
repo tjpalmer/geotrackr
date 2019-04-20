@@ -30,6 +30,7 @@ function map(x: number, min: number, max: number) {
 	return (x - i32Min) / (i32Max - i32Min) * (max - min) + min;
 }
 
+// TODO Consider splitmix64 or others sometime.
 function xorshift32(x: number) {
 	// See:
 	// http://www.jstatsoft.org/v08/i14/paper
