@@ -14,5 +14,5 @@ async function main() {
   // console.log(places);
   let game = new Game();
   let episode = await generateEpisode(places);
-  game.startEpisode(episode);
+  await game.startEpisode(episode);
 }

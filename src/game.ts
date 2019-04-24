@@ -11,16 +11,16 @@ export class Game {
 
   roundIndex = 0;
 
-  startEpisode(episode: Episode) {
+  async startEpisode(episode: Episode) {
     console.log(episode);
     this.episode = episode;
     this.roundIndex = 0;
-    this.startRound();
+    await this.startRound();
   }
 
-  startRound() {
+  async startRound() {
     let round = this.episode!.rounds[0];
-    renderPlace(round.place);
+    await renderPlace(round.place);
   }
 
   wire() {
