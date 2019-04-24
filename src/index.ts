@@ -1,5 +1,6 @@
 import {renderPlace} from './display';
 import {generateEpisode} from './episode';
+import {Game} from './game';
 import {MinPlace} from './place';
 
 addEventListener('load', main);
@@ -11,8 +12,7 @@ async function main() {
   let places =
     await (await fetch('places/places-en.json')).json() as MinPlace[];
   // console.log(places);
+  let game = new Game();
   let episode = await generateEpisode(places);
-  let round = episode.rounds[0];
-  console.log(episode);
-  renderPlace(round.place);
+  game.startEpisode(episode);
 }

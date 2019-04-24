@@ -7,6 +7,8 @@ export function renderPlace(place: MinPlace) {
   // Image.
   let img = document.querySelector('.photo img') as HTMLImageElement;
   img.src = site.image;
+  // Controls.
+  (document.querySelector('.control') as HTMLElement).style.display = 'flex';
   // Heading.
   let headingKids = document.querySelector('h1')!.children;
   headingKids[0].textContent = site.name;
