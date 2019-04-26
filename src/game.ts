@@ -28,6 +28,9 @@ export class Game {
     let arrows = [...controls.querySelector('.arrows')!.children];
     arrows[0].addEventListener('click', () => console.log('prev'));
     arrows.slice(-1)[0].addEventListener('click', () => console.log('next'));
+    arrows.slice(1, -1).forEach((button, index) => {
+      button.addEventListener('click', () => console.log(`go to ${index}`));
+    })
   }
 
 }

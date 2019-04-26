@@ -4,6 +4,30 @@
   flex-grow: 1;
 }
 
+.arrows :first-child::before {
+  content: '◀';
+}
+
+.arrows .go::before {
+  content: '○';
+}
+
+.arrows .go.active::before {
+  content: '◻';
+}
+
+.arrows .go.used::before {
+  content: '●';
+}
+
+.arrows .go.used.active::before {
+  content: '◼';
+}
+
+.arrows :last-child::before {
+  content: '▶';
+}
+
 body {
   background: black;
   font-family: Consolas, monospace;
