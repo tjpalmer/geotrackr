@@ -4,7 +4,15 @@
   flex-grow: 1;
 }
 
-.arrows :first-child::before {
+.arrows > .button {
+  display: inline-block;
+  height: 1em;
+  padding: 0;
+  text-align: center;
+  width: 1.2em;
+}
+
+.arrows .left::before {
   content: '◀';
 }
 
@@ -24,7 +32,7 @@
   content: '◼';
 }
 
-.arrows :last-child::before {
+.arrows .right::before {
   content: '▶';
 }
 

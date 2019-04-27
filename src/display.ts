@@ -1,9 +1,20 @@
 // import {Round} from './episode';
 import {FullSite, MinPlace} from './place';
 
-export async function renderPlace(place: MinPlace) {
-  // TODO Make sure we receive full places above, so to avoid casting.
-  let site = place.sites[0] as FullSite;
+export function renderArrows(siteIndex: number) {
+  let controls = document.querySelector('.control') as HTMLElement;
+  let goButtons = [...controls.querySelectorAll('.arrows .go')];
+  goButtons.forEach((element, index) => {
+    let button = element as HTMLElement;
+    if (siteIndex == index) {
+      button.classList.add('active');
+    } else {
+      button.classList.remove('active');
+    }
+  })
+}
+
+export async function renderSite(site: FullSite) {
   // Image.
   let img = document.querySelector('.photo img') as HTMLImageElement;
   await setImgSrc(img, site.image);
@@ -12,7 +23,9 @@ export async function renderPlace(place: MinPlace) {
   // Heading.
   let headingKids = document.querySelector('h1')!.children;
   headingKids[0].textContent = site.name;
-  headingKids[1].textContent = site.nameUi;
+  headingKids[1].textContent = site.name == site.nameUi ? '' : site.nameUi;
+  // Text.
+  document.querySelector('.clue')!.textContent = 'Clue for the next place.';
 }
 
 function setImgSrc(img: HTMLImageElement, src: string): Promise<void> {
