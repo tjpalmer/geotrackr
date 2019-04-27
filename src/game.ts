@@ -8,6 +8,12 @@ export class Game {
     this.wire();
   }
 
+  depart() {
+    if (this.episodeRunner) {
+      this.episodeRunner.depart();
+    }
+  }
+
   episodeRunner?: EpisodeRunner;
 
   goRel(siteStep: number) {
@@ -28,15 +34,19 @@ export class Game {
   }
 
   wire() {
+    // TODO Put wiring in display?
     let controls = document.querySelector('.control') as HTMLElement;
-    // Going to sites.
+    // Sites.
     let arrows = [...controls.querySelectorAll('.arrows .arrow')];
     arrows[0].addEventListener('click', () => this.goRel(-1));
     arrows[1].addEventListener('click', () => this.goRel(1));
     let goButtons = [...controls.querySelectorAll('.arrows .go')];
     goButtons.forEach((button, index) => {
       button.addEventListener('click', () => this.goTo(index));
-    })
+    });
+    // Other.
+    let depart = controls.querySelector('.depart .button') as HTMLElement;
+    depart.addEventListener('click', () => this.depart());
   }
 
 }
@@ -45,6 +55,14 @@ class EpisodeRunner {
 
   constructor(episode: Episode) {
     this.episode = episode;
+  }
+
+  async depart() {
+    // TODO On last round, depart means to end or to capture/encounter?
+    if (this.roundIndex < this.episode.rounds.length - 1) {
+      this.roundIndex += 1;
+      await this.startRound();
+    }
   }
 
   episode: Episode;
@@ -85,6 +103,11 @@ class EpisodeRunner {
   }
 
   async startRound() {
+    if (this.roundIndex == this.episode.rounds.length - 1) {
+      // TODO Put rendering in display.
+      let depart = document.querySelector('.depart') as HTMLElement;
+      depart.classList.add('disabled');
+    }
     await this.goTo(0);
   }
 

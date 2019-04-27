@@ -8,6 +8,8 @@ let langUi = 'en';
 function process() {
   let root = './places';
   let places = [] as Place<MinSite>[];
+  // TODO Extract this parsing for use in main code, too.
+  // TODO Or extract a json file for each place and language?
   readdirSync(root).forEach(kid => {
     let kidFull = join(root, kid);
     if (statSync(kidFull).isDirectory()) {
