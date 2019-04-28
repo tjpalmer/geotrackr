@@ -15,9 +15,21 @@ export class Random {
 		return Math.floor(map(this.next(), min, max + 1));
 	}
 
-	nextItem<Item>(array: Item[]): Item {
-		return array[this.nextInt(0, array.length - 1)];
+	nextItem<Item>(items: Item[]): Item {
+		return items[this.nextInt(0, items.length - 1)];
 	}
+
+	shuffled<Item>(items: Item[]) {
+		let result = items.slice();
+		// For non-full samples, Vitter's Method D might be good.
+		for (let i = result.length - 1; i > 0; i -= 1) {
+			let j = this.nextInt(0, i);
+			let temp = result[i];
+			result[i] = result[j];
+			result[j] = temp;
+		}
+		return result;
+  }
 
 	state: number;
 

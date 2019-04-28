@@ -106,19 +106,10 @@ class EpisodeGenerator {
       random.nextItem(places) :
       undefined;
     // Sites.
-    // TODO Always include skyline with clue, or just without clue?
-    let sites = [...Array(cluesPerPlace).keys()].map(() => {
-      // TODO This samples with replacement. Probably just shuffle instead.
-      let site = random.nextItem(place.sites);
-      let clue = '';
-      // Generate numbers now even if not used yet, for consistent production.
-      // TODO Remove this once really getting clues.
-      // TODO Do we get any "clues" at the last place?
-      if (nextPlace) {
-        random.nextInt(0, nextPlace!.sites.length);
-      }
-      return {clue, site} as ClueSite;
-    });
+    let sitesContext = {cluesPerPlace, nextPlace, place, random};
+    let sites = cluesPerPlace > place.sites.length ?
+      sampleReplacedSites(sitesContext) :
+      sampleShuffledSites(sitesContext);
     // Update and done.
     this.nextPlace = nextPlace;
     this.roundIndex += 1;
@@ -139,4 +130,48 @@ class EpisodeGenerator {
 
   seed!: int;
 
+}
+
+// Private.
+
+interface ClueContext {
+  nextPlace?: MinPlace;
+  random: Random;
+  site: MinSite;
+}
+
+interface SitesContext {
+  cluesPerPlace: number;
+  nextPlace?: MinPlace;
+  place: MinPlace;
+  random: Random;
+}
+
+function buildClueSite({nextPlace, random, site}: ClueContext) {
+  let clue = '';
+  // Generate numbers now even if not used yet, for consistent production.
+  // TODO Remove this once really getting clues.
+  // TODO Do we get any "clues" at the last place?
+  if (nextPlace) {
+    random.nextInt(0, nextPlace!.sites.length);
+  }
+  return { clue, site } as ClueSite;
+}
+
+function sampleReplacedSites(context: SitesContext) {
+  let {cluesPerPlace, nextPlace, place, random} = context;
+  return [...Array(cluesPerPlace).keys()].map(() => {
+    // TODO This samples with replacement. Probably just shuffle instead.
+    let site = random.nextItem(place.sites);
+    return buildClueSite({nextPlace, random, site});
+  });
+}
+
+function sampleShuffledSites(context: SitesContext) {
+  let {cluesPerPlace, nextPlace, place, random} = context;
+  let sites = [place.sites[0]];
+  sites.push(...random.shuffled(place.sites.slice(1)));
+  return sites.map(site => {
+    return buildClueSite({nextPlace, random, site});
+  });
 }
