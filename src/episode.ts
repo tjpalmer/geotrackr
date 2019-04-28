@@ -79,9 +79,12 @@ class EpisodeGenerator {
 
   generate(): Episode {
     // TODO Perp.
-    // The order has to be constant here.
+    // The random selection order has to be constant here.
+    // Select places without replacement, for better variety.
+    let places =
+      this.random.shuffled(this.places).slice(0, this.roundsPerEpisode);
     let rounds =
-      [...Array(this.roundsPerEpisode).keys()].map(() => this.nextRound());
+      places.map((place, index) => this.nextRound(place, places[index + 1]));
     // Prep buffer for episode id.
     let data = new DataView(new ArrayBuffer(4));
     // Set with little endianness, since that's most common these days.
@@ -96,12 +99,11 @@ class EpisodeGenerator {
     return {rounds, seed};
   }
 
-  nextRound(): Round {
+  nextRound(place: MinPlace, nextPlace?: MinPlace): Round {
     // Important! The order of generation can't be changed, or else it breaks
     // deterministic generation!
-    let {cluesPerPlace, nextPlace, places, random, roundsPerEpisode} = this;
+    let {cluesPerPlace, places, random, roundsPerEpisode} = this;
     // Current place and next.
-    let place = nextPlace || random.nextItem(places);
     nextPlace = this.roundIndex < roundsPerEpisode ?
       random.nextItem(places) :
       undefined;
@@ -111,14 +113,11 @@ class EpisodeGenerator {
       sampleReplacedSites(sitesContext) :
       sampleShuffledSites(sitesContext);
     // Update and done.
-    this.nextPlace = nextPlace;
     this.roundIndex += 1;
     return {place, sites};
   }
 
   cluesPerPlace!: int;
-
-  nextPlace?: MinPlace = undefined;
 
   places!: MinPlace[];
 
@@ -169,9 +168,12 @@ function sampleReplacedSites(context: SitesContext) {
 
 function sampleShuffledSites(context: SitesContext) {
   let {cluesPerPlace, nextPlace, place, random} = context;
+  // Keep the overview first.
   let sites = [place.sites[0]];
+  // Then shuffle the rest.
   sites.push(...random.shuffled(place.sites.slice(1)));
-  return sites.map(site => {
+  // But keep only a subset, in case we have more than required.
+  return sites.slice(0, cluesPerPlace).map(site => {
     return buildClueSite({nextPlace, random, site});
   });
 }
