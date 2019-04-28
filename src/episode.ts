@@ -64,7 +64,7 @@ class EpisodeGenerator {
       // Defaults.
       {
         cluesPerPlace: 5,
-        roundsPerEpisode: 5,
+        roundsPerEpisode: 5 + 1,
       },
       // Options.
       options,

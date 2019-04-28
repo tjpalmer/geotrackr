@@ -1,4 +1,4 @@
-// import {Round} from './episode';
+import {Episode} from './episode';
 import {FullSite, MinPlace} from './place';
 
 export function renderArrows(siteIndex: number) {
@@ -12,6 +12,15 @@ export function renderArrows(siteIndex: number) {
       button.classList.remove('active');
     }
   })
+}
+
+export function renderRound(roundIndex: number, episode: Episode) {
+  let box = document.querySelector('.round') as HTMLElement;
+  let roundNumber = roundIndex + 1;
+  let {length} = episode.rounds;
+  box.textContent = roundNumber < length ?
+    `Round ${roundNumber}/${length - 1}` :
+    `Finale`;
 }
 
 export async function renderSite(site: FullSite) {

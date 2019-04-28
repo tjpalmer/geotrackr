@@ -1,4 +1,4 @@
-import {renderArrows, renderSite} from './display';
+import {renderArrows, renderRound, renderSite} from './display';
 import {Episode} from './episode';
 import {FullSite} from './place';
 
@@ -108,6 +108,7 @@ class EpisodeRunner {
       let depart = document.querySelector('.depart') as HTMLElement;
       depart.classList.add('disabled');
     }
+    renderRound(this.roundIndex, this.episode);
     await this.goTo(0);
   }
 
