@@ -21,7 +21,12 @@
 }
 
 .arrows .go.active::before {
-  content: '◻';
+  border: 0.15em solid #0F4;
+  display: inline-block;
+  content: '';
+  height: 0.7em;
+  margin-top: 0.15em;
+  width: 0.7em;
 }
 
 .arrows .go.used::before {
@@ -89,18 +94,28 @@ body {
 }
 
 .credit {
-  position: absolute;
-  text-align: right;
-  width: 100%;
-}
-
-.credit .button {
   background: black;
   color: white;
   margin: 0;
-  opacity: 0.3;
-  padding: 0.1em 0.4em;
+  opacity: 0.5;
   border-radius: 0 0 0 0.2em;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  /* width: 100%; */
+}
+
+.credit .button {
+  color: white;
+  display: inline-block;
+  margin: 0;
+  padding: 0.2em 0.4em;
+}
+
+.creditContent {
+  display: inline-block;
+  padding: 0.4em;
+  text-align: left;
 }
 
 .depart {
