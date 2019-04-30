@@ -43,11 +43,17 @@ export async function generateEpisode(
     let text =
       await (await fetch(`places/${place.id}/${place.id}.html`)).text();
     let data = new DOMParser().parseFromString(text, "text/html");
-    [...data.querySelectorAll('#images h2')].forEach((heading, siteIndex) => {
+    [...data.querySelectorAll('#sites > *')].forEach((siteBox, siteIndex) => {
+      let site = place.sites[siteIndex] as FullSite;
+      // Names.
+      let heading = siteBox.querySelector('h2')!;
       let divs = heading.children;
-      (place.sites[siteIndex] as FullSite).name = divs[0].textContent!;
+      site.name = divs[0].textContent!;
       // TODO Extract by game language. Or have files extracted for each lang?
-      (place.sites[siteIndex] as FullSite).nameUi = divs[1].textContent!;
+      site.nameUi = divs[1].textContent!;
+      // Credit.
+      let credit = siteBox.querySelector('.credit')!;
+      site.credit = credit.innerHTML;
     })
     await imageRequests;
   }));

@@ -10,6 +10,7 @@ export class Game {
 
   depart() {
     if (this.episodeRunner) {
+      this.hideCredit();
       this.episodeRunner.depart();
     }
   }
@@ -28,13 +29,32 @@ export class Game {
     }
   }
 
+  hideCredit() {
+    let {classList} = document.querySelector('.credit') as HTMLElement;
+    classList.remove('expanded');
+  }
+
   async startEpisode(episode: Episode) {
     this.episodeRunner = new EpisodeRunner(episode);
     await this.episodeRunner.start();
   }
 
+  toggleCredit() {
+    let {classList} = document.querySelector('.credit') as HTMLElement;
+    if (classList.contains('expanded')) {
+      classList.remove('expanded');
+    } else {
+      classList.add('expanded');
+    }
+  }
+
   wire() {
     // TODO Put wiring in display?
+    // Meta things.
+    let credit = document.querySelector('.credit') as HTMLElement;
+    let creditButton = credit.querySelector('.button')!;
+    creditButton.addEventListener('click', () => this.toggleCredit());
+    // Game controls.
     let controls = document.querySelector('.control') as HTMLElement;
     // Sites.
     let arrows = [...controls.querySelectorAll('.arrows .arrow')];

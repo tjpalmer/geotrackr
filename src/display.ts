@@ -27,6 +27,8 @@ export async function renderSite(site: FullSite) {
   // Image.
   let img = document.querySelector('.photo img') as HTMLImageElement;
   await setImgSrc(img, site.image);
+  let creditText = document.querySelector('.creditText') as HTMLElement;
+  creditText.innerHTML = site.credit;
   // Controls.
   (document.querySelector('.control') as HTMLElement).style.display = 'flex';
   // Heading.

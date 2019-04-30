@@ -24,7 +24,7 @@ function process() {
           name: nameBox.text(),
           nameUi: doc(`h1 > div[lang="${langUi}"]`).first().text(),
           point: parsePoint(doc('#point').text()),
-          sites: doc('#images').children().toArray().map(kidElement => {
+          sites: doc('#sites').children().toArray().map(kidElement => {
             let kid = load(kidElement);
             return {
               // credit: kid('.credit').html()!.trim(),
