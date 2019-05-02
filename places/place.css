@@ -1,4 +1,13 @@
 #clues {
+  margin-top: 1em;
+}
+
+#clues > div {
+  display: list-item;
+  list-style: inside;
+}
+
+#info {
   margin: 0 1em 0 auto;
   max-width: 50vmin;
 }
