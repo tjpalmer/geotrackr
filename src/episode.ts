@@ -6,7 +6,7 @@ export type int = number;
 export type Clue = string;
 
 export interface ClueSite {
-  clue: Clue;
+  clue?: int | string;
   site: MinSite;
 }
 
@@ -30,19 +30,28 @@ export interface Round {
 export async function generateEpisode(
   places: MinPlace[], options: EpisodeOptions = {},
 ) {
+  // Generate the episode choices in advance.
   let episode = new EpisodeGenerator(places, options).generate();
-  await Promise.all(episode.rounds.map(async round => {
+  let {rounds} = episode;
+  // Load site data.
+  await Promise.all(rounds.map(async round => {
     let {place} = round;
-    // Update place sites, which are the same sites as for the round.
-    // TODO If we reach a point of more sites than use with shuffling, load the
-    // TODO round clue sites rather than all the place sites.
-    let imageRequests = Promise.all(place.sites.map(async site => {
+    // Update place sites.
+    // Start image requests for just those needed for the round.
+    let imageRequests = Promise.all(round.sites.map(async clueSite => {
+      let {site} = clueSite;
       // TODO Remember to URL.revokeObjectURL() after each round?
       site.image = await fetchObjectUri(`places/${place.id}/${site.image}`);
     }));
+    // Load the text data.
     let text =
       await (await fetch(`places/${place.id}/${place.id}.html`)).text();
     let data = new DOMParser().parseFromString(text, "text/html");
+    // Clues.
+    place.clues = [...data.querySelectorAll('#clues > *')].map(
+      clueBox => clueBox.innerHTML,
+    );
+    // Sites, and easier just to get them all, since they come bundled.
     [...data.querySelectorAll('#sites > *')].forEach((siteBox, siteIndex) => {
       let site = place.sites[siteIndex] as FullSite;
       // Names.
@@ -55,8 +64,19 @@ export async function generateEpisode(
       let credit = siteBox.querySelector('.credit')!;
       site.credit = credit.innerHTML;
     })
+    // Now let the images finish.
     await imageRequests;
   }));
+  // Fill in the clues.
+  rounds.slice(0, -1).forEach((round, roundIndex) => {
+    // We just put in the strings above.
+    let clues = rounds[roundIndex + 1].place.clues as string[];
+    round.sites.forEach(site => {
+      // And all but the last round has clue indices for where's next.
+      site.clue = clues[site.clue as number];
+    });
+  });
+  // Done.
   return episode;
 }
 
@@ -140,6 +160,7 @@ class EpisodeGenerator {
 // Private.
 
 interface ClueContext {
+  clue?: number;
   nextPlace?: MinPlace;
   random: Random;
   site: MinSite;
@@ -152,34 +173,40 @@ interface SitesContext {
   random: Random;
 }
 
-function buildClueSite({nextPlace, random, site}: ClueContext) {
-  let clue = '';
-  // Generate numbers now even if not used yet, for consistent production.
-  // TODO Remove this once really getting clues.
-  // TODO Do we get any "clues" at the last place?
-  if (nextPlace) {
-    random.nextInt(0, nextPlace!.sites.length);
-  }
-  return { clue, site } as ClueSite;
+function buildClueSite({clue, nextPlace, random, site}: ClueContext) {
+  return {clue, site} as ClueSite;
+}
+
+function permutation(random: Random, count: int) {
+  return random.shuffled([...Array<int>(count).keys()]);
+}
+
+function sampleClues(context: SitesContext) {
+  let {cluesPerPlace, nextPlace, random} = context;
+  return nextPlace ?
+    permutation(random, nextPlace.clues.length).slice(0, cluesPerPlace) :
+    [];
 }
 
 function sampleReplacedSites(context: SitesContext) {
   let {cluesPerPlace, nextPlace, place, random} = context;
-  return [...Array(cluesPerPlace).keys()].map(() => {
+  let clues = sampleClues(context);
+  return [...Array(cluesPerPlace).keys()].map((_, index) => {
     // TODO This samples with replacement. Probably just shuffle instead.
     let site = random.nextItem(place.sites);
-    return buildClueSite({nextPlace, random, site});
+    return buildClueSite({clue: clues[index], nextPlace, random, site});
   });
 }
 
 function sampleShuffledSites(context: SitesContext) {
   let {cluesPerPlace, nextPlace, place, random} = context;
+  let clues = sampleClues(context);
   // Keep the overview first.
   let sites = [place.sites[0]];
   // Then shuffle the rest.
   sites.push(...random.shuffled(place.sites.slice(1)));
   // But keep only a subset, in case we have more than required.
-  return sites.slice(0, cluesPerPlace).map(site => {
-    return buildClueSite({nextPlace, random, site});
+  return sites.slice(0, cluesPerPlace).map((site, index) => {
+    return buildClueSite({clue: clues[index], nextPlace, random, site});
   });
 }

@@ -1,4 +1,4 @@
-import {Episode} from './episode';
+import {ClueSite, Episode} from './episode';
 import {FullSite, MinPlace} from './place';
 
 export function renderArrows(siteIndex: number) {
@@ -23,7 +23,8 @@ export function renderRound(roundIndex: number, episode: Episode) {
     `Finale`;
 }
 
-export async function renderSite(site: FullSite) {
+export async function renderSite(clueSite: ClueSite) {
+  let site = clueSite.site as FullSite;
   // Image.
   let img = document.querySelector('.photo img') as HTMLImageElement;
   await setImgSrc(img, site.image);
@@ -36,7 +37,10 @@ export async function renderSite(site: FullSite) {
   headingKids[0].textContent = site.name;
   headingKids[1].textContent = site.name == site.nameUi ? '' : site.nameUi;
   // Text.
-  document.querySelector('.clue')!.textContent = 'Clue for the next place.';
+  document.querySelector('.clue')!.innerHTML =
+    typeof clueSite.clue == 'string' ?
+      `The next place is ${clueSite.clue}.` :
+      '';
 }
 
 function setImgSrc(img: HTMLImageElement, src: string): Promise<void> {

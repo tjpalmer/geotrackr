@@ -99,7 +99,7 @@ class EpisodeRunner {
   async goTo(siteIndex: number) {
     this.siteIndex = siteIndex;
     renderArrows(siteIndex);
-    await renderSite(this.site.site as FullSite);
+    await renderSite(this.site);
   }
 
   get round() {

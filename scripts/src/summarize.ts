@@ -19,6 +19,7 @@ function process() {
         let nameBox = doc('h1 > div').first();
         let lang = nameBox.attr('lang');
         places.push({
+          clues: {length: doc('#clues > *').length},
           id: kid,
           lang,
           name: nameBox.text(),

@@ -1,5 +1,8 @@
 [
   {
+    "clues": {
+      "length": 5
+    },
     "id": "beijing",
     "lang": "zh",
     "name": "北京",
@@ -27,6 +30,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "delhi",
     "lang": "hi",
     "name": "दिल्ली",
@@ -54,6 +60,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "jakarta",
     "lang": "id",
     "name": "Jakarta",
@@ -81,6 +90,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "lagos",
     "lang": "en",
     "name": "Lagos",
@@ -108,6 +120,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "mexico-city",
     "lang": "es",
     "name": "Ciudad de México",
@@ -135,6 +150,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "moscow",
     "lang": "ru",
     "name": "Москва",
@@ -162,6 +180,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "new-york-city",
     "lang": "en",
     "name": "New York City",
@@ -189,6 +210,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "sao-paulo",
     "lang": "pt",
     "name": "São Paulo",
@@ -216,6 +240,9 @@
     ]
   },
   {
+    "clues": {
+      "length": 5
+    },
     "id": "tokyo",
     "lang": "ja",
     "name": "東京",

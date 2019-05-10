@@ -13,6 +13,7 @@ export interface MinSite {
 }
 
 export interface Place<Site extends MinSite> {
+  clues: (number | string)[] | {length: number};
   id: string;
   lang: string;
   name: string;
