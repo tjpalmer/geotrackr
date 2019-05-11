@@ -23,3 +23,8 @@ export interface Place<Site extends MinSite> {
 }
 
 export type Point2 = [number, number];
+
+export interface SimpleSite {
+  credit: string;
+  image: string;
+}

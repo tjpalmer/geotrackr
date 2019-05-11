@@ -1,10 +1,16 @@
-import {renderArrows, renderRound, renderSite} from './display';
-import {Episode} from './episode';
-import {FullSite} from './place';
+import {renderArrows, renderSiteImage, renderRound, renderSite} from './display';
+import {Episode, generateEpisode} from './episode';
+import {MinPlace, SimpleSite} from './place';
+
+export interface GameData {
+  places: MinPlace[];
+  world: SimpleSite;
+}
 
 export class Game {
 
-  constructor() {
+  constructor(data: GameData) {
+    Object.assign(this, data);
     this.wire();
   }
 
@@ -34,8 +40,15 @@ export class Game {
     classList.remove('expanded');
   }
 
+  places!: MinPlace[];
+
+  async run() {
+    let episode = await generateEpisode(this.places);
+    await this.startEpisode(episode);
+  }
+
   async startEpisode(episode: Episode) {
-    this.episodeRunner = new EpisodeRunner(episode);
+    this.episodeRunner = new EpisodeRunner({episode, game: this});
     await this.episodeRunner.start();
   }
 
@@ -69,23 +82,51 @@ export class Game {
     depart.addEventListener('click', () => this.depart());
   }
 
+  world!: SimpleSite;
+
+}
+
+interface EpisodeRunnerData {
+  episode: Episode;
+  game: Game;
 }
 
 class EpisodeRunner {
 
-  constructor(episode: Episode) {
-    this.episode = episode;
+  constructor(data: EpisodeRunnerData) {
+    Object.assign(this, data);
+  }
+
+  cancelDepart() {
+    if (this.departing) {
+      this.departing = false;
+      document.querySelector('.depart .button')!.textContent = 'Depart';
+    }
+  }
+
+  async chooseDestination() {
+    await renderSiteImage(this.game.world);
   }
 
   async depart() {
     // TODO On last round, depart means to end or to capture/encounter?
     if (this.roundIndex < this.episode.rounds.length - 1) {
-      this.roundIndex += 1;
-      await this.startRound();
+      if (this.departing) {
+        this.roundIndex += 1;
+        await this.startRound();
+      } else {
+        this.departing = true;
+        document.querySelector('.depart .button')!.textContent = 'Confirm';
+        await this.chooseDestination();
+      }
     }
   }
 
-  episode: Episode;
+  departing = false;
+
+  episode!: Episode;
+
+  game!: Game;
 
   async goRel(siteStep: number) {
     let {length} = this.round.sites;
@@ -97,6 +138,7 @@ class EpisodeRunner {
   }
 
   async goTo(siteIndex: number) {
+    this.cancelDepart();
     this.siteIndex = siteIndex;
     renderArrows(siteIndex);
     await renderSite(this.site);

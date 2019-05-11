@@ -1,2 +1,1 @@
-World image from NASA Visible Earth.
-https://visibleearth.nasa.gov/view.php?id=57752
+World image from <a href="https://visibleearth.nasa.gov/view.php?id=57752">NASA Visible Earth</a>.

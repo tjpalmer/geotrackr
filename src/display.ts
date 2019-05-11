@@ -1,5 +1,5 @@
 import {ClueSite, Episode} from './episode';
-import {FullSite, MinPlace} from './place';
+import {FullSite, SimpleSite} from './place';
 
 export function renderArrows(siteIndex: number) {
   let controls = document.querySelector('.control') as HTMLElement;
@@ -26,10 +26,7 @@ export function renderRound(roundIndex: number, episode: Episode) {
 export async function renderSite(clueSite: ClueSite) {
   let site = clueSite.site as FullSite;
   // Image.
-  let img = document.querySelector('.photo img') as HTMLImageElement;
-  await setImgSrc(img, site.image);
-  let creditText = document.querySelector('.creditText') as HTMLElement;
-  creditText.innerHTML = site.credit;
+  await renderSiteImage(site);
   // Controls.
   (document.querySelector('.control') as HTMLElement).style.display = 'flex';
   // Heading.
@@ -41,6 +38,13 @@ export async function renderSite(clueSite: ClueSite) {
     typeof clueSite.clue == 'string' ?
       `The next place is ${clueSite.clue}.` :
       '';
+}
+
+export async function renderSiteImage(site: SimpleSite) {
+  let img = document.querySelector('.photo img') as HTMLImageElement;
+  await setImgSrc(img, site.image);
+  let creditText = document.querySelector('.creditText') as HTMLElement;
+  creditText.innerHTML = site.credit;
 }
 
 function setImgSrc(img: HTMLImageElement, src: string): Promise<void> {
