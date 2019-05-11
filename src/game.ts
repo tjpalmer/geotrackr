@@ -4,7 +4,6 @@ import {MinPlace, SimpleSite} from './place';
 
 export interface GameData {
   places: MinPlace[];
-  world: SimpleSite;
 }
 
 export class Game {
@@ -82,8 +81,6 @@ export class Game {
     depart.addEventListener('click', () => this.depart());
   }
 
-  world!: SimpleSite;
-
 }
 
 interface EpisodeRunnerData {
@@ -105,7 +102,7 @@ class EpisodeRunner {
   }
 
   async chooseDestination() {
-    await renderSiteImage(this.game.world);
+    await renderSiteImage(this.episode.world);
   }
 
   async depart() {

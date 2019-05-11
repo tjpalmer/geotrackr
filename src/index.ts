@@ -12,14 +12,7 @@ async function main() {
   let places = (async () =>
     await (await fetch('places/places-en.json')).json() as MinPlace[]
   )();
-  let worldImage = fetchObjectUri(`places/world/world.webp`);
-  let worldCredit = (async () =>
-    await (await fetch('places/world/world.txt')).text()
-  )();
   // console.log(places);
-  let game = new Game({
-    places: await places,
-    world: {credit: await worldCredit, image: await worldImage},
-  });
+  let game = new Game({places: await places});
   await game.run();
 }

@@ -1,5 +1,5 @@
 import {Random} from './random';
-import {FullSite, MinPlace, MinSite} from './place';
+import {FullSite, MinPlace, MinSite, SimpleSite} from './place';
 import {fetchObjectUri} from './util';
 
 export type int = number;
@@ -14,6 +14,7 @@ export interface Episode {
   // TODO Perpetrator
   rounds: Round[];
   seed: string;
+  world: SimpleSite;
 }
 
 export interface EpisodeOptions {
@@ -43,6 +44,10 @@ export async function generateEpisode(
       // TODO Remember to URL.revokeObjectURL() after each round?
       site.image = await fetchObjectUri(`places/${place.id}/${site.image}`);
     }));
+    let worldCredit = (async () =>
+      await (await fetch(episode.world.credit)).text()
+    )();
+    let worldImage = fetchObjectUri(episode.world.image);
     // Load the text data.
     let text =
       await (await fetch(`places/${place.id}/${place.id}.html`)).text();
@@ -65,6 +70,9 @@ export async function generateEpisode(
       site.credit = credit.innerHTML;
     })
     // Now let the images finish.
+    Object.assign(episode.world, {
+      credit: await worldCredit, image: await worldImage,
+    });
     await imageRequests;
   }));
   // Fill in the clues.
@@ -122,7 +130,9 @@ class EpisodeGenerator {
     let seed = btoa(String.fromCharCode(...new Uint8Array(data.buffer)));
     console.log(seed);
     // Done.
-    return {rounds, seed};
+    return {rounds, seed, world: {
+      credit: 'places/world/world.txt', image: 'places/world/world.webp',
+    }};
   }
 
   nextRound(place: MinPlace, nextPlace?: MinPlace): Round {
