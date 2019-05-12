@@ -1,5 +1,5 @@
 import {ClueSite, Episode} from './episode';
-import {FullSite, SimpleSite} from './place';
+import {FullSite, Point2, SimpleSite} from './place';
 
 export function renderArrows(siteIndex: number) {
   let controls = document.querySelector('.control') as HTMLElement;
@@ -12,6 +12,17 @@ export function renderArrows(siteIndex: number) {
       button.classList.remove('active');
     }
   })
+}
+
+export function renderPoint(point?: Point2) {
+  let pointBox = document.querySelector('.point') as HTMLElement;
+  if (point) {
+    pointBox.style.display = 'block';
+    pointBox.style.left = `${point[0] * 100}%`;
+    pointBox.style.top = `${point[1] * 100}%`;
+  } else {
+    pointBox.style.display = 'none';
+  }
 }
 
 export function renderRound(roundIndex: number, episode: Episode) {

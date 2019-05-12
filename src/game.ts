@@ -1,6 +1,6 @@
-import {renderArrows, renderSiteImage, renderRound, renderSite} from './display';
+import {renderArrows, renderSiteImage, renderRound, renderSite, renderPoint} from './display';
 import {Episode, generateEpisode} from './episode';
-import {MinPlace, SimpleSite} from './place';
+import {MinPlace, Point2} from './place';
 
 export interface GameData {
   places: MinPlace[];
@@ -41,6 +41,22 @@ export class Game {
 
   places!: MinPlace[];
 
+  pointAt(event: MouseEvent) {
+    event.preventDefault();
+    let credit = document.querySelector('.credit') as HTMLElement;
+    if (event.buttons & 1) {
+      credit.style.pointerEvents = 'none';
+      let bounds = (event.target as HTMLElement).getBoundingClientRect();
+      let x = (event.x - bounds.left) / bounds.width;
+      let y = (event.y - bounds.top) / bounds.height;
+      if (this.episodeRunner) {
+        this.episodeRunner.pointAt([x, y]);
+      }
+    } else {
+      credit.style.pointerEvents = 'auto';
+    }
+  }
+
   async run() {
     let episode = await generateEpisode(this.places);
     await this.startEpisode(episode);
@@ -66,6 +82,11 @@ export class Game {
     let credit = document.querySelector('.credit') as HTMLElement;
     let creditButton = credit.querySelector('.button')!;
     creditButton.addEventListener('click', () => this.toggleCredit());
+    // Map click handling.
+    let photo = document.querySelector('.photo img') as HTMLElement;
+    photo.addEventListener('mousedown', event => this.pointAt(event));
+    photo.addEventListener('mousemove', event => this.pointAt(event));
+    photo.addEventListener('mouseup', event => this.pointAt(event));
     // Game controls.
     let controls = document.querySelector('.control') as HTMLElement;
     // Sites.
@@ -98,6 +119,7 @@ class EpisodeRunner {
     if (this.departing) {
       this.departing = false;
       document.querySelector('.depart .button')!.textContent = 'Depart';
+      renderPoint();
     }
   }
 
@@ -113,6 +135,7 @@ class EpisodeRunner {
         await this.startRound();
       } else {
         this.departing = true;
+        renderPoint(this.point);
         document.querySelector('.depart .button')!.textContent = 'Confirm';
         await this.chooseDestination();
       }
@@ -141,6 +164,20 @@ class EpisodeRunner {
     await renderSite(this.site);
   }
 
+  point?: Point2;
+
+  pointAt(point: Point2) {
+    if (!this.departing) {
+      return;
+    }
+    this.point = point;
+    renderPoint(point);
+    if (false) {
+      let latlon = [(0.5 - point[1]) * 180, (point[0] - 0.5) * 360];
+      console.log(latlon);
+    }
+  }
+
   get round() {
     return this.episode.rounds[this.roundIndex];
   }
@@ -162,6 +199,7 @@ class EpisodeRunner {
   }
 
   async startRound() {
+    this.point = undefined;
     if (this.roundIndex == this.episode.rounds.length - 1) {
       // TODO Put rendering in display.
       let depart = document.querySelector('.depart') as HTMLElement;
