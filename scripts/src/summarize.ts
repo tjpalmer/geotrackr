@@ -43,11 +43,11 @@ function process() {
 
 function parsePoint(pointText: string): Point2 {
   let match = pointText.match(/([0-9.]+)° ([NS]), ([0-9.]+)° ([EW])/)!;
-  let x = Number(match[3]);
-  x *= match[4] == 'E' ? 1 : -1;
-  let y = Number(match[1]);
-  y *= match[2] == 'N' ? 1 : -1;
-  return [x, y];
+  let lon = Number(match[3]);
+  lon *= match[4] == 'E' ? 1 : -1;
+  let lat = Number(match[1]);
+  lat *= match[2] == 'N' ? 1 : -1;
+  return [lat, lon];
 }
 
 process();

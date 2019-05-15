@@ -197,6 +197,7 @@ h2 {
   font-size: 3vh;
   left: 50%;
   height: 0.2em;
+  pointer-events: none;
   position: absolute;
   top: 50%;
   width: 0.2em;

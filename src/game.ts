@@ -1,5 +1,6 @@
 import {renderArrows, renderSiteImage, renderRound, renderSite, renderPoint} from './display';
 import {Episode, generateEpisode} from './episode';
+import {inverse} from './geo';
 import {MinPlace, Point2} from './place';
 
 export interface GameData {
@@ -172,9 +173,11 @@ class EpisodeRunner {
     }
     this.point = point;
     renderPoint(point);
-    if (false) {
-      let latlon = [(0.5 - point[1]) * 180, (point[0] - 0.5) * 360];
-      console.log(latlon);
+    if (true) {
+      let latLon = [(0.5 - point[1]) * 180, (point[0] - 0.5) * 360] as Point2;
+      let {point: trueLatLon} = this.episode.rounds[this.roundIndex + 1].place;
+      let distance = inverse(latLon, trueLatLon).distance;
+      console.log(latLon, distance);
     }
   }
 
