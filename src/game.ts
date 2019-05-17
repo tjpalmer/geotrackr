@@ -1,4 +1,6 @@
-import {renderArrows, renderSiteImage, renderRound, renderSite, renderPoint} from './display';
+import {
+  renderArrows, renderSiteImage, renderRound, renderSite, renderPoint,
+} from './display';
 import {Episode, generateEpisode} from './episode';
 import {inverse} from './geo';
 import {MinPlace, Point2} from './place';
@@ -45,6 +47,7 @@ export class Game {
   pointAt(event: MouseEvent) {
     event.preventDefault();
     let credit = document.querySelector('.credit') as HTMLElement;
+    // TODO This needs to depend on whether the click was on the map originally.
     if (event.buttons & 1) {
       credit.style.pointerEvents = 'none';
       let bounds = (event.target as HTMLElement).getBoundingClientRect();
@@ -84,6 +87,7 @@ export class Game {
     let creditButton = credit.querySelector('.button')!;
     creditButton.addEventListener('click', () => this.toggleCredit());
     // Map click handling.
+    // TODO Need touchmove for mobile?
     let photo = document.querySelector('.photo img') as HTMLElement;
     photo.addEventListener('mousedown', event => this.pointAt(event));
     photo.addEventListener('mousemove', event => this.pointAt(event));
@@ -116,10 +120,18 @@ class EpisodeRunner {
     Object.assign(this, data);
   }
 
+  adjustScore(amount: number) {
+    // TODO Animation.
+    this.score += amount;
+    let scoreBox = document.querySelector('.score .value')!;
+    scoreBox.textContent = this.score as unknown as string;
+  }
+
   cancelDepart() {
     if (this.departing) {
       this.departing = false;
       document.querySelector('.depart .button')!.textContent = 'Depart';
+      this.enableDepart(!this.end);
       renderPoint();
     }
   }
@@ -129,13 +141,14 @@ class EpisodeRunner {
   }
 
   async depart() {
-    // TODO On last round, depart means to end or to capture/encounter?
     if (this.roundIndex < this.episode.rounds.length - 1) {
-      if (this.departing) {
+      if (this.departing && this.point) {
+        this.scorePoint();
         this.roundIndex += 1;
         await this.startRound();
       } else {
         this.departing = true;
+        this.enableDepart(this.point != null);
         renderPoint(this.point);
         document.querySelector('.depart .button')!.textContent = 'Confirm';
         await this.chooseDestination();
@@ -144,6 +157,20 @@ class EpisodeRunner {
   }
 
   departing = false;
+
+  private enableDepart(enabled: boolean) {
+    // TODO Put rendering in display.
+    let depart = document.querySelector('.depart') as HTMLElement;
+    if (enabled) {
+      depart.classList.remove('disabled');
+    } else {
+      depart.classList.add('disabled');
+    }
+  }
+
+  get end() {
+    return this.roundIndex == this.episode.rounds.length - 1;
+  }
 
   episode!: Episode;
 
@@ -172,13 +199,24 @@ class EpisodeRunner {
       return;
     }
     this.point = point;
+    this.enableDepart(true);
     renderPoint(point);
-    if (true) {
-      let latLon = [(0.5 - point[1]) * 180, (point[0] - 0.5) * 360] as Point2;
-      let {point: trueLatLon} = this.episode.rounds[this.roundIndex + 1].place;
-      let distance = inverse(latLon, trueLatLon).distance;
-      console.log(latLon, distance);
-    }
+  }
+
+  scorePoint() {
+    let point = this.point!;
+    let latLon = [(0.5 - point[1]) * 180, (point[0] - 0.5) * 360] as Point2;
+    let {point: trueLatLon} = this.episode.rounds[this.roundIndex + 1].place;
+    let distance = inverse(latLon, trueLatLon).distance;
+    // Give full points for within 200 km.
+    // Less is hard 
+    let adjusted = Math.max(distance - 200e3, 0);
+    // Beyond that, the max is about 20,000 km, so lose out at less than that.
+    // We expect people to correctly predict the destination here, so be strict.
+    let fraction = Math.max(1 - (adjusted / 5e6), 0);
+    let activated = fraction ** 2;
+    let score = Math.ceil(5000 * activated);
+    this.adjustScore(score);
   }
 
   get round() {
@@ -186,6 +224,8 @@ class EpisodeRunner {
   }
 
   roundIndex = 0;
+
+  score = 25000;
 
   get site() {
     return this.round.sites[this.siteIndex];
@@ -203,10 +243,8 @@ class EpisodeRunner {
 
   async startRound() {
     this.point = undefined;
-    if (this.roundIndex == this.episode.rounds.length - 1) {
-      // TODO Put rendering in display.
-      let depart = document.querySelector('.depart') as HTMLElement;
-      depart.classList.add('disabled');
+    if (this.end) {
+      this.enableDepart(false);
     }
     renderRound(this.roundIndex, this.episode);
     await this.goTo(0);
