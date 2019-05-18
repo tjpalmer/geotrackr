@@ -1,15 +1,25 @@
-import {ClueSite, Episode} from './episode';
+import {Episode} from './episode';
+import {ClueSiteChoice} from './game';
 import {FullSite, Point2, SimpleSite} from './place';
 
-export function renderArrows(siteIndex: number) {
+export function renderArrows(
+  info: {siteIndex: number, sites: ClueSiteChoice[]},
+) {
   let controls = document.querySelector('.control') as HTMLElement;
   let goButtons = [...controls.querySelectorAll('.arrows .go')];
   goButtons.forEach((element, index) => {
     let button = element as HTMLElement;
-    if (siteIndex == index) {
+    // Active.
+    if (info.siteIndex == index) {
       button.classList.add('active');
     } else {
       button.classList.remove('active');
+    }
+    // Used.
+    if (info.sites[index].siteTagIndex != null) {
+      button.classList.add('used');
+    } else {
+      button.classList.remove('used');
     }
   })
 }
@@ -31,10 +41,10 @@ export function renderRound(roundIndex: number, episode: Episode) {
   let {length} = episode.rounds;
   box.textContent = roundNumber < length ?
     `Round ${roundNumber}/${length - 1}` :
-    `Finale`;
+    `Finish`;
 }
 
-export async function renderSite(clueSite: ClueSite) {
+export async function renderSite(clueSite: ClueSiteChoice, end: boolean) {
   let site = clueSite.site as FullSite;
   // Image.
   await renderSiteImage(site);
@@ -45,10 +55,18 @@ export async function renderSite(clueSite: ClueSite) {
   headingKids[0].textContent = site.name;
   headingKids[1].textContent = site.name == site.nameUi ? '' : site.nameUi;
   // Text.
-  document.querySelector('.clue')!.innerHTML =
-    typeof clueSite.clue == 'string' ?
-      `The next place is ${clueSite.clue}.` :
-      '';
+  let clueBox = document.querySelector('.clue') as HTMLElement;
+  clueBox.innerHTML = typeof clueSite.clue == 'string' ?
+    `The next place is ${clueSite.clue}.` :
+    '';
+  let wantClueBox = document.querySelector('.wantClue') as HTMLElement;
+  if (clueSite.siteTagIndex == null && !end) {
+    clueBox.style.display = 'none';
+    wantClueBox.style.display = 'block';
+  } else {
+    clueBox.style.display = 'block';
+    wantClueBox.style.display = 'none';
+  }
 }
 
 export async function renderSiteImage(site: SimpleSite) {

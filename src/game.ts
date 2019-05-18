@@ -1,7 +1,7 @@
 import {
   renderArrows, renderSiteImage, renderRound, renderSite, renderPoint,
 } from './display';
-import {Episode, generateEpisode} from './episode';
+import {Episode, generateEpisode, ClueSite} from './episode';
 import {inverse} from './geo';
 import {MinPlace, Point2} from './place';
 
@@ -80,6 +80,12 @@ export class Game {
     }
   }
 
+  async wantClue() {
+    if (this.episodeRunner) {
+      await this.episodeRunner.wantClue();
+    }
+  }
+
   wire() {
     // TODO Put wiring in display?
     // Meta things.
@@ -105,8 +111,14 @@ export class Game {
     // Other.
     let depart = controls.querySelector('.depart .button') as HTMLElement;
     depart.addEventListener('click', () => this.depart());
+    let wantClue = document.querySelector('.wantClue') as HTMLElement;
+    wantClue.addEventListener('click', () => this.wantClue());
   }
 
+}
+
+export interface ClueSiteChoice extends ClueSite {
+  siteTagIndex?: number;
 }
 
 interface EpisodeRunnerData {
@@ -188,8 +200,8 @@ class EpisodeRunner {
   async goTo(siteIndex: number) {
     this.cancelDepart();
     this.siteIndex = siteIndex;
-    renderArrows(siteIndex);
-    await renderSite(this.site);
+    renderArrows({siteIndex, sites: this.round.sites});
+    await renderSite(this.site, this.end);
   }
 
   point?: Point2;
@@ -225,10 +237,10 @@ class EpisodeRunner {
 
   roundIndex = 0;
 
-  score = 25000;
+  score = 0;
 
   get site() {
-    return this.round.sites[this.siteIndex];
+    return this.round.sites[this.siteIndex] as ClueSiteChoice;
   }
 
   siteIndex = 0;
@@ -238,6 +250,8 @@ class EpisodeRunner {
     console.log(episode);
     this.episode = episode;
     this.roundIndex = 0;
+    this.score = 0;
+    this.adjustScore(5000);
     await this.startRound();
   }
 
@@ -248,6 +262,13 @@ class EpisodeRunner {
     }
     renderRound(this.roundIndex, this.episode);
     await this.goTo(0);
+  }
+
+  async wantClue() {
+    this.adjustScore(-200);
+    // TODO Actually make them choose a tag.
+    this.site.siteTagIndex = 0;
+    await this.goTo(this.siteIndex);
   }
 
 }

@@ -34,7 +34,7 @@
 }
 
 .arrows .go.used.active::before {
-  content: '◼';
+  background: #0F4;
 }
 
 .arrows .right::before {
@@ -212,4 +212,8 @@ h2 {
 
 .share .button {
   margin: 1vh 0;
+}
+
+.wantClue {
+  display: none;
 }
