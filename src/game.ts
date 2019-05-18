@@ -247,7 +247,7 @@ class EpisodeRunner {
 
   async start() {
     let {episode} = this;
-    console.log(episode);
+    // console.log(episode);
     this.episode = episode;
     this.roundIndex = 0;
     this.score = 0;
