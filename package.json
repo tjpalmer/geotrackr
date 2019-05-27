@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -f favicon.*.ico main.*.css* src.*.js* && parcel build src/index.html --out-dir . --public-url ./",
+    "build": "rm -f favicon.*.ico main.*.css* src.*.js* && parcel build src/index.html --out-dir . --public-url ./ && inline-source ./index.html",
     "extract": "node scripts/bin/scripts/src/summarize.js > places/places-en.json",
     "start": "parcel src/index.html --out-dir dev",
     "test": "echo \"Error: no test specified\" && exit 1",
